@@ -7,17 +7,18 @@
 
 resource "azurerm_mssql_database" "db" {
   name                             = "${var.db_name}"
+  server_id                        = azurerm_mssql_server.server.id
+  collation                        = "${var.collation}"
   resource_group_name              = "${var.resource_group_name}"
   location                         = "${var.location}"
-  edition                          = "${var.db_edition}"
-  collation                        = "${var.collation}"
-  server_name                      = "${azurerm_sql_server.server.name}"
+  edition                          = "${var.db_edition}" 
+  license_type                     = "LicenseIncluded"
   create_mode                      = "Default"
   requested_service_objective_name = "${var.service_objective_name}"
   tags                             = "${var.tags}"
 }
 
-resource "azurerm_sql_server" "server" {
+resource "azurerm_mssql_server" "server" {
   name                         = "${var.server_name}-sqlsvr"
   resource_group_name          = "${var.resource_group_name}"
   location                     = "${var.location}"
