@@ -5,9 +5,19 @@
 #   tenant_id       = "REPLACE-WITH-YOUR-TENANT-ID"
 # }
 
+data "azurerm_resource_group" "network" {
+  count = var.resource_group_location == null ? 1 : 0
+
+  name = var.resource_group_name
+}
+
+locals {
+  resource_group_location = var.resource_group_location == null ? data.azurerm_resource_group.network[0].location : var.resource_group_location
+}
+
 resource "azurerm_mssql_database" "db" {
   name                             = "${var.db_name}"
-  server_id                        = azurerm_mssql_server.server.id
+  server_id                        = "${azurerm_mssql_server.server.id}"
   collation                        = "${var.collation}"  
   license_type                     = "LicenseIncluded"
   create_mode                      = "Default"
@@ -17,17 +27,16 @@ resource "azurerm_mssql_database" "db" {
 resource "azurerm_mssql_server" "server" {
   name                         = "${var.server_name}-sqlsvr"
   resource_group_name          = "${var.resource_group_name}"
-  location                     = "${var.location}"
+  location                     = "${local.resource_group_location}"
   version                      = "${var.server_version}"
   administrator_login          = "${var.sql_admin_username}"
   administrator_login_password = "${var.sql_password}"
   tags                         = "${var.tags}"
 }
 
-resource "azurerm_sql_firewall_rule" "fw" {
-  name                = "${var.db_name}-fwrules"
-  resource_group_name = "${var.resource_group_name}"
-  server_name         = "${azurerm_mssql_server.server.name}"
+resource "azurerm_mssql_firewall_rule" "fw" {
+  name                = "${azurerm_mssql_server.server.name}-fwrules"
+  server_id           = "${azurerm_mssql_server.server.id}"  
   start_ip_address    = "${var.start_ip_address}"
   end_ip_address      = "${var.end_ip_address}"
 }
