@@ -8,13 +8,9 @@
 resource "azurerm_mssql_database" "db" {
   name                             = "${var.db_name}"
   server_id                        = azurerm_mssql_server.server.id
-  collation                        = "${var.collation}"
-  resource_group_name              = "${var.resource_group_name}"
-  location                         = "${var.location}"
-  edition                          = "${var.db_edition}" 
+  collation                        = "${var.collation}"  
   license_type                     = "LicenseIncluded"
   create_mode                      = "Default"
-  requested_service_objective_name = "${var.service_objective_name}"
   tags                             = "${var.tags}"
 }
 
@@ -31,7 +27,7 @@ resource "azurerm_mssql_server" "server" {
 resource "azurerm_sql_firewall_rule" "fw" {
   name                = "${var.db_name}-fwrules"
   resource_group_name = "${var.resource_group_name}"
-  server_name         = "${azurerm_sql_server.server.name}"
+  server_name         = "${azurerm_mssql_server.server.name}"
   start_ip_address    = "${var.start_ip_address}"
   end_ip_address      = "${var.end_ip_address}"
 }
