@@ -21,6 +21,7 @@ resource "azurerm_mssql_database" "db" {
   collation                        = "${var.collation}"  
   license_type                     = "LicenseIncluded"
   create_mode                      = "Default"
+  sku_name                         = "${var.sku_name}"
   tags                             = "${var.tags}"
 }
 
