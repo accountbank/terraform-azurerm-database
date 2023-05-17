@@ -25,8 +25,8 @@ variable "db_edition" {
   default     = "Basic"
 }
 
-variable "service_objective_name" {
-  description = "The performance level for the database. For the list of acceptable values, see https://docs.microsoft.com/en-gb/azure/sql-database/sql-database-service-tiers. Default is Basic."
+variable "sku_name" {
+  description = "Specifies the name of the SKU used by the database."
   default     = "Basic"
 }
 
