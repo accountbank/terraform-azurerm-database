@@ -30,6 +30,11 @@ variable "sku_name" {
   default     = "Basic"
 }
 
+variable "max_size_gb" {
+  description = "(Optional) The max size of the database in gigabytes."
+  default     = 5
+}
+
 variable "collation" {
   description = "The collation for the database. Default is SQL_Latin1_General_CP1_CI_AS"
   default     = "SQL_Latin1_General_CP1_CI_AS"

@@ -22,6 +22,7 @@ resource "azurerm_mssql_database" "db" {
   license_type                     = "LicenseIncluded"
   create_mode                      = "Default"
   sku_name                         = "${var.sku_name}"
+  max_size_gb                      = var.max_size_gb
   tags                             = "${var.tags}"
 }
 
