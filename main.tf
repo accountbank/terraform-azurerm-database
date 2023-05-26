@@ -24,6 +24,9 @@ resource "azurerm_mssql_database" "db" {
   sku_name                         = "${var.sku_name}"
   max_size_gb                      = var.max_size_gb
   tags                             = "${var.tags}"
+  lifecycle {
+    prevent_destroy                = true
+  }
 }
 
 resource "azurerm_mssql_server" "server" {
