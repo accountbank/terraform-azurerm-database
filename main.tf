@@ -39,14 +39,14 @@ resource "azurerm_mssql_server" "server" {
   tags                         = "${var.tags}"
 }
 
-resource "azurerm_mssql_firewall_rule" "fw" {
+resource "azurerm_mssql_firewall_rule" "fw-vms" {
   name                = "${azurerm_mssql_server.server.name}-fwrules-vms"
   server_id           = "${azurerm_mssql_server.server.id}"  
   start_ip_address    = "${var.start_ip_address}"
   end_ip_address      = "${var.end_ip_address}"
 }
 
-resource "azurerm_mssql_firewall_rule" "fw" {
+resource "azurerm_mssql_firewall_rule" "fw-devops" {
   name                = "${azurerm_mssql_server.server.name}-fwrules-devops"
   server_id           = "${azurerm_mssql_server.server.id}"  
   start_ip_address    = "191.235.226.0"
